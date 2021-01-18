@@ -62,20 +62,21 @@ module.exports = {
           process.env.TOKEN_SECRET
         );
 
-        // req.session.token = token;
-        // console.log(token);
+        let sess = req.session;
+        sess.auth = token;
+        sess.userName = user.name;
 
-        res.setHeader('tokens', "token123");
-        // res.data['tokens'] = "req.session.sessionID";
-
-        res.redirect('/')
-        // res.header('Authorization', "token12").redirect("/")
-        // console.log(req.headers)
-        // res.header("auth-token", token).redirect("/");
-        // res.set("auth-token", token).redirect("/");
-        // res.send(token);
+        res.set("auth-token", token).redirect("/");
       }
     }
+  },
+  logout: (req, res) => {
+    req.session.destroy(err => {
+      if (err) {
+        return console.log(err);
+      }
+      res.redirect("/");
+    });
   },
 
   // Register Function

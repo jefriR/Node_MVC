@@ -1,1 +1,78 @@
-<h1>WELCOME HOME</h1>
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+  <div class="container">
+    <a class="navbar-brand" href="#">The Posts</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav mr-auto">
+        <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+      </div>
+      <div class="navbar-nav">
+        <a class="nav-item nav-link" href="/users/logout">Logout <i class="fas fa-sign-out-alt"></i></a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="row mt-5 ml-5">
+  <div class="col-sm-5">
+    <div class="card shadow-lg">
+      <div class="card-header bg-success">Add New Post</div>
+      <div class="card-body">
+        <form action="/posts/" method="POST">
+          <%- include ("./message"); %>
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" class="form-control" placeholder="Enter the Title Post" />
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" name="description" id="description" rows="3"
+              placeholder="Enter the Description"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">
+            Submit
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-header bg-success">All Post</div>
+      <div class="card-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Create By</th>
+              <th>Create Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if(dataPosts.length != 0){ 
+              for(let i =0; i < dataPosts.length; i++){     
+            %>
+            <tr>
+              <td><%=dataPosts[i].title %></td>
+              <td><%=dataPosts[i].description %></td>
+              <td><%=dataPosts[i].create_by %></td>
+              <td><%=dataPosts[i].create_dt %></td>
+            </tr>
+            <% } } else {
+              %>
+            <tr>
+              <td colspan="3" class="text-center">No Data</td>
+            </tr>
+            <%
+            }%>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

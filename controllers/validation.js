@@ -30,6 +30,14 @@ module.exports = {
         });
 
         return schema.validate(data);
+    },
+    postValidation: (data) => {
+        const schema = Joi.object({
+            title: Joi.string().required(),
+            description: Joi.string().required()
+        })
+
+        return schema.validate(data);
     }
 
 }

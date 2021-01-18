@@ -6,7 +6,7 @@ const session = require("express-session");
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const app = express();
-const mdl = require("./controllers/loginMiddleware");
+const checkSession = require("./controllers/loginMiddleware");
 
 // Middlerware
 dotenv.config();
@@ -21,9 +21,12 @@ app.use(
 ); //Bodyparser
 app.use(
   session({
-    secret: "secret",
+    secret: "keyboard cat",
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 2 * 60 * 1000
+    }
   })
 ); //Session
 
@@ -37,10 +40,13 @@ app.use((req, res, next) => {
 
 // Import Route
 const userRoute = require("./routes/users");
+const postRoute = require("./routes/posts");
 
 // Route
-app.get("/", mdl, (req, res) => res.render("home"));
+// app.get("/", (req, res) => res.redirect("posts/"));
+app.get("/", checkSession, (req, res) => res.redirect("posts/"));
 app.use("/users", userRoute);
+app.use('/posts', checkSession, postRoute);
 
 // Connect DB
 mongoose.connect(
